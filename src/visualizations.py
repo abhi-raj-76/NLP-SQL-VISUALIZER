@@ -1,8 +1,12 @@
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from sqlalchemy import text, inspect  # ADD inspect import
+from sqlalchemy import text, inspect
+import logging
 
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 class DataVisualizer:
     def __init__(self, engine):
@@ -15,77 +19,87 @@ class DataVisualizer:
 
     def execute_query(self, query):
         """Execute SQL query and return DataFrame"""
-        with self.engine.connect() as conn:
-            return pd.read_sql(query, conn)
+        try:
+            with self.engine.connect() as conn:
+                return pd.read_sql(query, conn)
+        except Exception as e:
+            logger.error(f"Error executing query: {str(e)}")
+            return pd.DataFrame()
 
     def create_status_pie_chart(self):
         """Create pie chart of search status distribution"""
-        # CHECK IF TABLES EXIST FIRST
-        if not self.check_table_exists('search') or not self.check_table_exists('search_status'):
+        if not self.check_table_exists('Search Table') or not self.check_table_exists('Search_status'):
+            logger.warning("Required tables (Search Table or Search_status) not found")
             return None
 
         query = """
-        SELECT ss.Status, COUNT(*) as count 
-        FROM search s
-        JOIN search_status ss ON s.search_status = ss.Status_code
-        GROUP BY ss.Status
+        SELECT ss.status, COUNT(*) as count 
+        FROM "Search Table" s
+        JOIN "Search_status" ss ON s.search_status = ss.status_code
+        GROUP BY ss.status
         """
         df = self.execute_query(text(query))
 
-        fig = px.pie(df, values='count', names='Status',
-                     title='Background Check Status Distribution')
-        return fig
+        if not df.empty:
+            fig = px.pie(df, values='count', names='status',
+                         title='Background Check Status Distribution')
+            return fig
+        return None
 
     def create_company_bar_chart(self):
         """Create bar chart of orders by company"""
-        # CHECK IF TABLES EXIST FIRST
-        if not self.check_table_exists('order_request') or not self.check_table_exists('company'):
+        if not self.check_table_exists('Order_Request Table') or not self.check_table_exists('Company Table'):
+            logger.warning("Required tables (Order_Request Table or Company Table) not found")
             return None
 
         query = """
         SELECT c.comp_name, COUNT(*) as order_count
-        FROM order_request o
-        JOIN company c ON o.order_CompanyCode = c.comp_code
+        FROM "Order_Request Table" o
+        JOIN "Company Table" c ON o.order_companycode = c.comp_code
         GROUP BY c.comp_name
         ORDER BY order_count DESC
         LIMIT 10
         """
         df = self.execute_query(text(query))
 
-        fig = px.bar(df, x='comp_name', y='order_count',
-                     title='Top 10 Companies by Number of Orders',
-                     labels={'comp_name': 'Company', 'order_count': 'Number of Orders'})
-        fig.update_layout(xaxis_tickangle=-45)
-        return fig
+        if not df.empty:
+            fig = px.bar(df, x='comp_name', y='order_count',
+                         title='Top 10 Companies by Number of Orders',
+                         labels={'comp_name': 'Company', 'order_count': 'Number of Orders'})
+            fig.update_layout(xaxis_tickangle=-45)
+            return fig
+        return None
 
     def create_search_type_treemap(self):
         """Create treemap of search types by category"""
-        # CHECK IF TABLES EXIST FIRST
-        if not self.check_table_exists('search') or not self.check_table_exists('search_type'):
+        if not self.check_table_exists('Search Table') or not self.check_table_exists('Search_Type Table'):
+            logger.warning("Required tables (Search Table or Search_Type Table) not found")
             return None
 
         query = """
         SELECT st.search_type_category, st.search_type, COUNT(*) as count
-        FROM search s
-        JOIN search_type st ON s.search_type_code = st.search_type_code
+        FROM "Search Table" s
+        JOIN "Search_Type Table" st ON s.search_type_code = st.search_type_code
         GROUP BY st.search_type_category, st.search_type
         """
         df = self.execute_query(text(query))
 
-        fig = px.treemap(df, path=['search_type_category', 'search_type'], values='count',
-                         title='Search Types Distribution by Category')
-        return fig
+        if not df.empty:
+            fig = px.treemap(df, path=['search_type_category', 'search_type'], values='count',
+                             title='Search Types Distribution by Category')
+            return fig
+        return None
 
     def create_geographical_map(self):
         """Create geographical distribution map"""
-        # CHECK IF TABLES EXIST FIRST
-        if not self.check_table_exists('search'):
+        if not self.check_table_exists('Search Table'):
+            logger.warning("Required table (Search Table) not found")
             return None
 
         query = """
         SELECT state_code, COUNT(*) as count
-        FROM search
-        WHERE state_code != 'NA' AND state_code != 'I' AND state_code IS NOT NULL
+        FROM "Search Table"
+        WHERE state_code IS NOT NULL AND state_code NOT IN ('NA', 'I', 'NONE')
         GROUP BY state_code
         """
         df = self.execute_query(text(query))
@@ -100,22 +114,23 @@ class DataVisualizer:
 
     def create_package_price_analysis(self):
         """Analyze package prices"""
-        # CHECK IF TABLES EXIST FIRST
-        if not self.check_table_exists('package') or not self.check_table_exists(
-                'company') or not self.check_table_exists('order_request'):
+        if not self.check_table_exists('Package Table') or not self.check_table_exists('Company Table') or not self.check_table_exists('Order_Request Table'):
+            logger.warning("Required tables (Package Table, Company Table, or Order_Request Table) not found")
             return None
 
         query = """
         SELECT p.package_name, p.package_price, c.comp_name, COUNT(o.order_id) as usage_count
-        FROM package p
-        JOIN company c ON p.comp_code = c.comp_code
-        LEFT JOIN order_request o ON p.package_code = o.Order_packcageCode
+        FROM "Package Table" p
+        JOIN "Company Table" c ON p.comp_code = c.comp_code
+        LEFT JOIN "Order_Request Table" o ON p.package_code = o.order_packagecode
         GROUP BY p.package_name, p.package_price, c.comp_name
         """
         df = self.execute_query(text(query))
 
-        fig = px.scatter(df, x='package_price', y='usage_count', size='usage_count',
-                         color='comp_name', hover_name='package_name',
-                         title='Package Price vs Usage Analysis',
-                         labels={'package_price': 'Package Price ($)', 'usage_count': 'Number of Orders'})
-        return fig
+        if not df.empty:
+            fig = px.scatter(df, x='package_price', y='usage_count', size='usage_count',
+                             color='comp_name', hover_name='package_name',
+                             title='Package Price vs Usage Analysis',
+                             labels={'package_price': 'Package Price ($)', 'usage_count': 'Number of Orders'})
+            return fig
+        return None
