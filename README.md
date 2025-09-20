@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Background Verification Chatbot
 
 A natural language interface for querying background verification data with visualizations.
@@ -19,3 +20,7 @@ Ask questions like:
 - "Show pending background checks for Amazon"
 - "Compare education verification status"
 - "What's the average package price?"
+=======
+# UOH-BitsNBytes
+Hackathon repo for UOH team - Bits N Bytes
+>>>>>>> 9fd6a20dd0d872ed098372762dd23af2e0853a38
