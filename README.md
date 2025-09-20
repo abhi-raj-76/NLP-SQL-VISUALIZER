@@ -2,11 +2,30 @@
 
 A comprehensive Streamlit-based analytics dashboard for background check data analysis with natural language query processing and automated visualizations.
 
-## 🔍 Overview
+## Overview
 
 This dashboard provides an intelligent interface for analyzing background verification data through natural language queries. It automatically generates SQL queries, creates appropriate visualizations, and offers downloadable results.
 
-## ✨ Features
+## Screenshots
+
+### Home Dashboard
+![Home Interface](home1.jpg)
+Main dashboard interface with query input and navigation
+
+![Data Visualization](home2garph.jpg)
+Automatic chart generation and data insights
+
+### Working Interface
+![Query Processing](working1.jpg)
+Natural language query processing in action
+
+![Results Display](working2.jpg)
+Query results with data tables and export options
+
+![Analytics View](working3.jpg)
+Advanced analytics and visualization features
+
+## Features
 
 - *Natural Language Processing*: Ask questions in plain English about your background check data
 - *Automated SQL Generation*: Converts natural language to optimized SQL queries
@@ -16,7 +35,7 @@ This dashboard provides an intelligent interface for analyzing background verifi
 - *Security-First*: Built-in SQL injection protection and query validation
 - *Multi-Table Support*: Handles complex joins across multiple data tables
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -40,7 +59,7 @@ streamlit run src/chatbot.py
 2. Start asking questions about your data in the text area
 3. View results, visualizations, and download data as needed
 
-## 📊 Supported Query Types
+## Supported Query Types
 
 ### Status Queries
 - "Show all pending background checks"
@@ -65,7 +84,7 @@ streamlit run src/chatbot.py
 - "Display package pricing"
 - "Show package usage"
 
-## 🏗 Architecture
+## Architecture
 
 ### Core Components
 
@@ -103,7 +122,7 @@ Data Cleaning    Index Creation   Validation      Auto-select  Export
 Schema Setup     Type Conversion  Execution       Styling      History
 
 
-## 🛡 Security Features
+## Security Features
 
 - *SQL Injection Protection*: Comprehensive keyword filtering and validation
 - *Query Sanitization*: Safe parameter binding and input cleaning  
@@ -111,7 +130,7 @@ Schema Setup     Type Conversion  Execution       Styling      History
 - *Input Validation*: Length limits and content filtering
 - *Error Handling*: Graceful failure management
 
-## 📁 Project Structure
+## Project Structure
 
 
 background-verification-dashboard/
@@ -132,7 +151,7 @@ background-verification-dashboard/
 └── README.md
 
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 - EXCEL_FILE_PATH: Path to your Excel data file (default: DataSet_Hackathon.xlsx)
@@ -152,7 +171,7 @@ The system expects these Excel sheets:
 - Adjust visualization settings in visualizations.py
 - Update security rules in database_connection.py
 
-## 🧪 Testing
+## Testing
 
 Run the comprehensive test suite:
 
@@ -168,7 +187,7 @@ python tests/test_all.py
 - Error handling scenarios
 - Security validation
 
-## 🎨 Visualization Types
+## Visualization Types
 
 ### Automatic Selection
 The system automatically chooses the best visualization based on your data:
@@ -187,7 +206,7 @@ The system automatically chooses the best visualization based on your data:
 - Zoom and pan capabilities
 - Export options (PNG, PDF, HTML)
 
-## 📈 Performance Optimization
+## Performance Optimization
 
 - *Database Indexing*: Automatic index creation on key columns
 - *Query Limiting*: Results capped at reasonable limits
@@ -195,7 +214,7 @@ The system automatically chooses the best visualization based on your data:
 - *Memory Management*: Efficient data loading
 - *Caching*: Session-based result caching
 
-## 🚨 Error Handling
+## Error Handling
 
 The system includes comprehensive error handling for:
 - Invalid Excel file formats
@@ -205,7 +224,7 @@ The system includes comprehensive error handling for:
 - Visualization failures
 - Memory constraints
 
-## 🤝 Contributing
+## Contributing
 
 ### Development Setup
 1. Install development dependencies
@@ -221,7 +240,7 @@ The system includes comprehensive error handling for:
 - Write tests for new features
 - Document complex functions
 
-## 📋 Requirements
+## Requirements
 
 ### System Requirements
 - Python 3.7+
@@ -237,7 +256,7 @@ sqlalchemy>=1.4.0
 openpyxl>=3.0.0
 
 
-## 🔗 API Reference
+## API Reference
 
 ### DatabaseConnector Class
 python
@@ -258,7 +277,7 @@ visualizer = DataVisualizer(database_engine)
 fig = visualizer.auto_visualize(dataframe, title)
 
 
-## 📞 Support
+## Support
 
 For issues, questions, or contributions:
 1. Check the test suite for examples
@@ -266,11 +285,11 @@ For issues, questions, or contributions:
 3. Ensure your Excel file matches the expected format
 4. Verify all dependencies are installed correctly
 
-## 📄 License
+## License
 
 This project is provided as-is for educational and development purposes.
 
-## 🏆 Acknowledgments
+## Acknowledgments
 
 Built with modern Python data science tools:
 - *Streamlit* for the web interface
