@@ -25,6 +25,9 @@ Query results with data tables and export options
 ![Analytics View](working3.jpg)
 Advanced analytics and visualization features
 
+![Recent Queries](recentquery.jpg)
+Query history and recent analysis tracking
+
 ## Features
 
 - *Natural Language Processing*: Ask questions in plain English about your background check data
@@ -147,7 +150,14 @@ background-verification-dashboard/
 ├── utils/
 │   ├── __init__.py
 │   └── advanced_visualizations.py  # Advanced chart types
+├── DataSet_Hackathon.xlsx      # Sample Excel data file
 ├── main.py                     # Application entry point
+├── home1.jpg                   # UI screenshot - Home interface
+├── home2garph.jpg              # UI screenshot - Data visualization
+├── working1.jpg                # UI screenshot - Query processing
+├── working2.jpg                # UI screenshot - Results display
+├── working3.jpg                # UI screenshot - Analytics view
+├── recentquery.jpg             # UI screenshot - Recent queries
 └── README.md
 
 
