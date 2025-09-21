@@ -151,6 +151,7 @@ background-verification-dashboard/
 │   ├── __init__.py
 │   └── advanced_visualizations.py  # Advanced chart types
 ├── DataSet_Hackathon.xlsx      # Sample Excel data file
+├── AccurateHackathonPPT.pptx   # Project presentation slides
 ├── main.py                     # Application entry point
 ├── home1.jpg                   # UI screenshot - Home interface
 ├── home2garph.jpg              # UI screenshot - Data visualization
