@@ -267,14 +267,15 @@ def main():
     <style>
     .main-header {
         font-size: 2.5rem;
-        color: #1f77b4;
+        color: #ffffff; /* White text */
         text-align: center;
         margin-bottom: 1.5rem;
         padding: 1rem;
-        background: linear-gradient(90deg, #f0f2f6, #ffffff);
+        background: linear-gradient(90deg, #28a745, #218838); /* Green gradient */
         border-radius: 10px;
-        border: 1px solid #e0e6ed;
+        border: 1px solid #1e7e34; /* Darker green border */
     }
+
     .stButton button {
         width: 100%;
         background-color: #4CAF50;
@@ -312,7 +313,7 @@ def main():
     </style>
     """, unsafe_allow_html=True)
 
-    st.markdown('<h1 class="main-header">🔍 Background Verification Analytics Dashboard</h1>',
+    st.markdown('<h1 class="main-header"> Background Verification Analytics Dashboard</h1>',
                 unsafe_allow_html=True)
 
     # Initialize session state
@@ -340,7 +341,7 @@ def main():
 
     # Sidebar for quick actions and tests
     with st.sidebar:
-        st.header("🔧 Quick Actions")
+        st.header("Quick Actions")
 
         # Database test queries
         st.subheader("Database Tests")
@@ -350,19 +351,19 @@ def main():
             if st.button("Test Search Table", key="test_search"):
                 df = test_database_query('Search Table')
                 if df is not None and not df.empty:
-                    st.success(f"✅ {len(df)} rows")
+                    st.success(f"{len(df)} rows")
                     st.dataframe(df, use_container_width=True)
                 else:
-                    st.warning("⚠️ No data")
+                    st.warning("No data")
 
         with col2:
             if st.button("Test Subject Table", key="test_subject"):
                 df = test_database_query('Subject Table')
                 if df is not None and not df.empty:
-                    st.success(f"✅ {len(df)} rows")
+                    st.success(f"{len(df)} rows")
                     st.dataframe(df, use_container_width=True)
                 else:
-                    st.warning("⚠️ No data")
+                    st.warning("No data")
 
         # Quick visualizations
         st.subheader("Quick Visualizations")
@@ -388,7 +389,7 @@ def main():
 
         # System actions
         st.subheader("System Actions")
-        if st.button("🔄 Refresh Database", key="refresh_db"):
+        if st.button("Refresh Database", key="refresh_db"):
             for key in ['db_initialized', 'chatbot']:
                 if key in st.session_state:
                     del st.session_state[key]
@@ -398,7 +399,7 @@ def main():
     col1, col2 = st.columns([2, 1])
 
     with col1:
-        st.subheader("💬 Ask Your Question")
+        st.subheader("Ask Your Question")
 
         # User input area
         user_input = st.text_area(
@@ -417,16 +418,16 @@ def main():
         col_analyze, col_clear = st.columns([3, 1])
 
         with col_analyze:
-            analyze_clicked = st.button("🚀 Analyze Query", key="analyze_btn", use_container_width=True)
+            analyze_clicked = st.button("Analyze Query", key="analyze_btn", use_container_width=True)
 
         with col_clear:
-            if st.button("🗑️ Clear", key="clear_btn", use_container_width=True):
+            if st.button("Clear", key="clear_btn", use_container_width=True):
                 st.session_state.user_input = ""
                 st.rerun()
 
         # Process query
         if analyze_clicked and user_input.strip():
-            with st.spinner("🔍 Analyzing your query..."):
+            with st.spinner("Analyzing your query..."):
                 try:
                     response, df, visualization = chatbot.process_query(user_input)
 
@@ -438,7 +439,7 @@ def main():
                     })
 
                     # Display results
-                    st.subheader("📋 Results")
+                    st.subheader("Results")
 
                     if "Error" in response or "Invalid" in response:
                         st.error(response)
@@ -447,7 +448,7 @@ def main():
                         st.markdown(response)
 
                         if df is not None and not df.empty:
-                            st.subheader("📊 Data Preview")
+                            st.subheader("Data Preview")
                             st.info(f"Found {len(df)} records")
 
                             # Display limited rows for performance
@@ -459,29 +460,29 @@ def main():
 
                             # Show visualization
                             if visualization is not None:
-                                st.subheader("📈 Visualization")
+                                st.subheader("Visualization")
                                 st.plotly_chart(visualization, use_container_width=True)
 
                             # Download option
                             csv = df.to_csv(index=False)
                             st.download_button(
-                                label="📥 Download Results as CSV",
+                                label="Download Results as CSV",
                                 data=csv,
                                 file_name=f"query_results_{pd.Timestamp.now().strftime('%Y%m%d_%H%M%S')}.csv",
                                 mime="text/csv"
                             )
                         else:
-                            st.warning("⚠️ No data returned from query")
+                            st.warning("No data returned from query")
 
                 except Exception as e:
-                    st.error(f"❌ Error processing query: {str(e)}")
+                    st.error(f" Error processing query: {str(e)}")
                     logger.error(f"Error processing query '{user_input}': {str(e)}")
 
         elif analyze_clicked:
             st.warning("Please enter a question first!")
 
     with col2:
-        st.subheader("💡 Example Queries")
+        st.subheader("Example Queries")
         examples = [
             "Show all pending background checks",
             "Count completed education verifications",
@@ -502,7 +503,7 @@ def main():
 
         # Chat history
         if st.session_state.chat_history:
-            st.subheader("📜 Recent Queries")
+            st.subheader("Recent Queries")
             with st.expander("View Query History", expanded=False):
                 for i, item in enumerate(reversed(st.session_state.chat_history[-5:])):
                     st.markdown(f"**Q{len(st.session_state.chat_history) - i}:** {item['query'][:50]}...")
@@ -514,17 +515,16 @@ def main():
     col_footer1, col_footer2, col_footer3 = st.columns(3)
 
     with col_footer1:
-        st.markdown("🔍 **Background Verification Analytics**")
-        st.markdown("*Powered by Streamlit & AI*")
+        st.markdown("**Background Verification Analytics**")
 
     with col_footer2:
         if hasattr(st.session_state, 'db_initialized') and st.session_state.db_initialized:
-            st.markdown("✅ **Database Status: Connected**")
+            st.markdown("**Database Status: Connected**")
         else:
-            st.markdown("❌ **Database Status: Not Connected**")
+            st.markdown("**Database Status: Not Connected**")
 
     with col_footer3:
-        st.markdown("📈 **Features: Query • Visualize • Download**")
+        st.markdown("**Features: Query • Visualize • Download**")
 
 
 if __name__ == "__main__":
