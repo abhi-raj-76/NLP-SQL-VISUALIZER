@@ -42,9 +42,9 @@ Query history and recent analysis tracking
 
 ### Prerequisites
 
-bash
+```bash
 pip install streamlit pandas plotly sqlalchemy openpyxl logging
-
+```
 
 ### Installation
 
@@ -52,9 +52,9 @@ pip install streamlit pandas plotly sqlalchemy openpyxl logging
 2. Ensure your Excel file (DataSet_Hackathon.xlsx) is in the root directory
 3. Run the application:
 
-bash
+```bash
 streamlit run src/chatbot.py
-
+```
 
 ### First Use
 
@@ -117,13 +117,13 @@ streamlit run src/chatbot.py
 
 ### Data Processing Pipeline
 
-
+```
 Excel File → Database Loading → Query Processing → Visualization → Results Display
      ↓              ↓                ↓               ↓           ↓
 File Validation  Table Creation  NLP→SQL         Chart Gen.   Download
 Data Cleaning    Index Creation   Validation      Auto-select  Export
 Schema Setup     Type Conversion  Execution       Styling      History
-
+```
 
 ## Security Features
 
@@ -135,7 +135,7 @@ Schema Setup     Type Conversion  Execution       Styling      History
 
 ## Project Structure
 
-
+```
 background-verification-dashboard/
 ├── src/
 │   ├── __init__.py
@@ -151,7 +151,7 @@ background-verification-dashboard/
 │   ├── __init__.py
 │   └── advanced_visualizations.py  # Advanced chart types
 ├── DataSet_Hackathon.xlsx      # Sample Excel data file
-├── AccurateHackathonPPT.pptx   # Project presentation slides
+├── HackathonPPT.pptx           # Project presentation slides
 ├── main.py                     # Application entry point
 ├── home1.jpg                   # UI screenshot - Home interface
 ├── home2garph.jpg              # UI screenshot - Data visualization
@@ -160,7 +160,7 @@ background-verification-dashboard/
 ├── working3.jpg                # UI screenshot - Analytics view
 ├── recentquery.jpg             # UI screenshot - Recent queries
 └── README.md
-
+```
 
 ## Configuration
 
@@ -186,9 +186,9 @@ The system expects these Excel sheets:
 
 Run the comprehensive test suite:
 
-bash
+```bash
 python tests/test_all.py
-
+```
 
 ### Test Coverage
 - Database connectivity and operations
@@ -254,39 +254,40 @@ The system includes comprehensive error handling for:
 ## Requirements
 
 ### System Requirements
-- Python 3.7+
+- Python 3.10.0
 - 4GB+ RAM recommended
 - Modern web browser
 
 ### Python Dependencies
 
+```
 streamlit>=1.28.0
 pandas>=1.5.0
 plotly>=5.15.0
 sqlalchemy>=1.4.0
 openpyxl>=3.0.0
-
+```
 
 ## API Reference
 
 ### DatabaseConnector Class
-python
+```python
 db_connector = DatabaseConnector()
 db_connector.load_excel_to_sql(file_path)
 db_connector.test_query(table_name, limit=5)
-
+```
 
 ### LLMQueryEngine Class
-python
+```python
 query_engine = LLMQueryEngine(database_engine)
 response, sql, df = query_engine.query("natural language query")
-
+```
 
 ### DataVisualizer Class
-python
+```python
 visualizer = DataVisualizer(database_engine)
 fig = visualizer.auto_visualize(dataframe, title)
-
+```
 
 ## Support
 
