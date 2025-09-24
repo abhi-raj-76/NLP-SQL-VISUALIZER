@@ -53,7 +53,7 @@ pip install streamlit pandas plotly sqlalchemy openpyxl logging
 3. Run the application:
 
 ```bash
-streamlit run src/chatbot.py
+python -m streamlit run main.py
 ```
 
 ### First Use
@@ -184,10 +184,10 @@ The system expects these Excel sheets:
 
 ## Testing
 
-Run the comprehensive test suite:
+To run and test the main application:
 
 ```bash
-python tests/test_all.py
+python -m streamlit run main.py
 ```
 
 ### Test Coverage
